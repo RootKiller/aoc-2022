@@ -40,6 +40,50 @@ ssize_t getline(char* out_buffer, size_t out_buffer_size, FILE* f)
 }
 
 
+void part_one(const int* const elf_calories, int elf_count)
+{
+	int max_calories_per_elf = -1;
+
+	for(int i = 0; i < elf_count; ++i)
+	{
+		if (max_calories_per_elf <  elf_calories[i])
+		{
+			 max_calories_per_elf = elf_calories[i];
+		}
+	}
+
+	printf("The most calories per elf is: %i\n", max_calories_per_elf);
+}
+
+
+static int sort_calories (const void * a, const void * b)
+{
+	return ( *(int*)b - *(int*)a );
+}
+
+void part_two(const int* const elf_calories, int elf_count)
+{
+	if (elf_count < 3)
+	{
+		return;
+	}
+
+	int* sorted_elf_calories = malloc(sizeof(int) * elf_count);
+	memcpy(sorted_elf_calories, elf_calories, sizeof(int) * elf_count);
+	qsort(sorted_elf_calories, elf_count, sizeof(int), sort_calories);
+
+	int top3_calories_total = 0;
+
+	for(int i = 0; i < 3; ++i)
+	{
+		top3_calories_total += sorted_elf_calories[i];
+	}
+
+	printf("Top3 calories total: %i\n", top3_calories_total);
+	free(sorted_elf_calories);
+}
+
+
 int main(int argc, const char* const argv[])
 {
 	FILE* f = fopen("input.txt", "r");
@@ -74,18 +118,9 @@ int main(int argc, const char* const argv[])
 		elf_count = elf_index+1;
 	}
 
-	int max_calories_per_elf = -1;
 
-	for(int i = 0; i < elf_count; ++i)
-	{
-		if (max_calories_per_elf <  elf_calories[i])
-		{
-			 max_calories_per_elf = elf_calories[i];
-		}
-	}
-
-	printf("The most calories per elf is: %i", max_calories_per_elf);
-
+	part_one(elf_calories, elf_count);
+	part_two(elf_calories, elf_count);
 
 	free(elf_calories);
 	fclose(f);
