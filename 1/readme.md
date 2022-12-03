@@ -1,6 +1,6 @@
 # Day 1
 
-Language: C
-Compiler:  (tcc)[https://bellard.org/tcc/]
+* Language: C
+* Compiler:  (tcc)[https://bellard.org/tcc/]
 
 
